@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/cart/cart-context";
+import PageView from "@/components/analytics/page-view";
+import { Suspense } from "react";
 
 export default function ShippingPage() {
   const { state } = useCart();
@@ -21,6 +23,10 @@ export default function ShippingPage() {
       <Link href="/checkout/payment">
         <Button>Proceed to Payment</Button>
       </Link>
+
+      <Suspense fallback={null}>
+        <PageView title="shipping" />
+      </Suspense>
     </div>
   );
 }

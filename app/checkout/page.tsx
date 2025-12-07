@@ -1,8 +1,11 @@
 "use client";
 
-import { useCart } from "@/components/cart/cart-context";
+import PageView from "@/components/analytics/page-view";
+import { CartItem, useCart } from "@/components/cart/cart-context";
 import { Button } from "@/components/ui/button";
+import { removeFromCart } from "@/lib/tracking";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export default function CheckoutPage() {
   const { state, removeItem } = useCart();
@@ -11,6 +14,11 @@ export default function CheckoutPage() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+
+  const handleClick = (item: CartItem) => {
+    removeItem(item.id);
+    removeFromCart(item);
+  };
 
   return (
     <div className="space-y-6">
@@ -30,7 +38,7 @@ export default function CheckoutPage() {
                 {item.quantity} × €{item.price}
               </p>
             </div>
-            <Button variant="destructive" onClick={() => removeItem(item.id)}>
+            <Button variant="destructive" onClick={() => handleClick(item)}>
               Remove
             </Button>
           </li>
@@ -46,6 +54,10 @@ export default function CheckoutPage() {
           </Link>
         </>
       )}
+
+      <Suspense fallback={null}>
+        <PageView title="checkout" />
+      </Suspense>
     </div>
   );
 }

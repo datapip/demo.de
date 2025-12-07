@@ -1,5 +1,7 @@
 import { getProductsByCategory } from "@/lib/products";
 import ProductCard from "@/components/product-card";
+import PageView from "@/components/analytics/page-view";
+import { Suspense } from "react";
 
 export default async function CategoryPage({
   params,
@@ -19,6 +21,10 @@ export default async function CategoryPage({
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
+
+      <Suspense fallback={null}>
+        <PageView title={slug} />
+      </Suspense>
     </div>
   );
 }

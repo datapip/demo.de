@@ -1,7 +1,8 @@
 "use client";
 
+import PageView from "@/components/analytics/page-view";
 import { useCart } from "@/components/cart/cart-context";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 export default function SuccessPage() {
   const { state, clearCart } = useCart();
@@ -17,6 +18,10 @@ export default function SuccessPage() {
       <p>Your order is completed.</p>
 
       <pre>{JSON.stringify(state.items, null, 2)}</pre>
+
+      <Suspense fallback={null}>
+        <PageView title="thank-you" />
+      </Suspense>
     </div>
   );
 }

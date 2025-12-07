@@ -1,9 +1,10 @@
 "use client";
 
+import PageView from "@/components/analytics/page-view";
 import { useCart } from "@/components/cart/cart-context";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { ReactElement } from "react";
+import { addToCart, viewItem } from "@/lib/tracking";
+import { ReactElement, Suspense, useEffect } from "react";
 import { toast } from "sonner";
 
 export type ProductClientProps = {
@@ -21,14 +22,20 @@ export default function ProductPageClient({ product }: ProductClientProps) {
   const handleAdd = () => {
     toast.success("Item added to cart");
 
-    addItem({
+    const item = {
       id: product.id,
       name: product.name,
       price: product.price,
       quantity: 1,
       image: product.image,
-    });
+    };
+
+    addItem(item);
+
+    addToCart(item);
   };
+
+  useEffect(() => viewItem(product), [product]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
@@ -55,6 +62,10 @@ export default function ProductPageClient({ product }: ProductClientProps) {
 
         <Button onClick={handleAdd}>Add to Cart</Button>
       </div>
+
+      <Suspense fallback={null}>
+        <PageView title={product.name.toLowerCase()} />
+      </Suspense>
     </div>
   );
 }
