@@ -5,6 +5,7 @@ import Footer from "@/components/footer";
 import { CartProvider } from "@/components/cart/cart-context";
 import { Toaster } from "@/components/ui/sonner";
 import { DataLayer } from "../components/analytics/data-layer";
+import TagManager from "@/components/analytics/tag-manager";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body
         className={`flex flex-col min-w-screen min-h-screen ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <TagManager />
         <DataLayer />
 
         <CartProvider>
