@@ -4,7 +4,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/cart/cart-context";
 import PageView from "@/components/analytics/page-view";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
+import { addPayment } from "@/lib/tracking";
 
 export default function PaymentPage() {
   const { state } = useCart();
@@ -14,11 +15,27 @@ export default function PaymentPage() {
     0
   );
 
+  useEffect(() => addPayment("credit card", state.items), [state.items]);
+
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Payment</h1>
 
-      <pre>{JSON.stringify({ items: state.items, total }, null, 2)}</pre>
+      <pre>
+        {JSON.stringify(
+          {
+            items: state.items.map(({ id, name, price, quantity }) => ({
+              id,
+              name,
+              price,
+              quantity,
+            })),
+            total,
+          },
+          null,
+          2
+        )}
+      </pre>
 
       <Link href="/checkout/success">
         <Button>Complete Purchase</Button>

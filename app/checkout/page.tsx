@@ -3,9 +3,9 @@
 import PageView from "@/components/analytics/page-view";
 import { CartItem, useCart } from "@/components/cart/cart-context";
 import { Button } from "@/components/ui/button";
-import { removeFromCart } from "@/lib/tracking";
+import { beginCheckout, removeFromCart } from "@/lib/tracking";
 import Link from "next/link";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 
 export default function CheckoutPage() {
   const { state, removeItem } = useCart();
@@ -19,6 +19,8 @@ export default function CheckoutPage() {
     removeItem(item.id);
     removeFromCart(item);
   };
+
+  useEffect(() => beginCheckout(state.items), [state.items]);
 
   return (
     <div className="space-y-6">

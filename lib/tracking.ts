@@ -99,7 +99,6 @@ export const beginCheckout = (
       })),
     },
   };
-  console.info(`[debug] event: ${data.event} \n`, data);
   pushData(data);
 };
 
