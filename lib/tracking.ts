@@ -5,6 +5,8 @@ export const pushData = (payload: Record<string, string | number | object>) => {
     window.dataLayer = [];
   }
 
+  console.info(`[debug] push event: ${payload.event} \n`, payload);
+
   window.dataLayer.push(payload);
 };
 
@@ -64,7 +66,7 @@ export const removeFromCart = (item: {
   price: number;
   quantity: number;
 }) => {
-  pushData({
+  const data = {
     event: "remove_from_cart",
     ecommerce: {
       items: [
@@ -76,7 +78,9 @@ export const removeFromCart = (item: {
         },
       ],
     },
-  });
+  };
+  console.info(`[debug] event: ${data.event} \n`, data);
+  pushData(data);
 };
 
 /**
@@ -85,7 +89,7 @@ export const removeFromCart = (item: {
 export const beginCheckout = (
   items: { id: string; name: string; price: number; quantity: number }[]
 ) => {
-  pushData({
+  const data = {
     event: "begin_checkout",
     ecommerce: {
       items: items.map((i) => ({
@@ -95,7 +99,9 @@ export const beginCheckout = (
         quantity: i.quantity,
       })),
     },
-  });
+  };
+  console.info(`[debug] event: ${data.event} \n`, data);
+  pushData(data);
 };
 
 /**
