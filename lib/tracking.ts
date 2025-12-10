@@ -18,7 +18,6 @@ export const viewItem = (product: {
   name: string;
   price: number;
 }) => {
-  console.log("VIEW ITEM", product);
   pushData({
     event: "view_item",
     ecommerce: {
